@@ -1,0 +1,199 @@
+-- Define the player and character
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Create the GUI
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Main GUI Frame (ZapHub)
+local zapHubFrame = Instance.new("Frame")
+zapHubFrame.Size = UDim2.new(0, 400, 0, 500)
+zapHubFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
+zapHubFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+zapHubFrame.Parent = screenGui
+
+-- Title Label for ZapHub
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, 0, 0, 40)
+titleLabel.Text = "ZapHub"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextSize = 24
+titleLabel.Parent = zapHubFrame
+
+-- Auto Section
+local autoFrame = Instance.new("Frame")
+autoFrame.Size = UDim2.new(1, 0, 0.3, 0)
+autoFrame.Position = UDim2.new(0, 0, 0.1, 0)
+autoFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+autoFrame.Parent = zapHubFrame
+
+local autoLabel = Instance.new("TextLabel")
+autoLabel.Size = UDim2.new(1, 0, 0, 40)
+autoLabel.Text = "Auto"
+autoLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+autoLabel.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+autoLabel.Font = Enum.Font.GothamBold
+autoLabel.TextSize = 20
+autoLabel.Parent = autoFrame
+
+-- Auto Reel, Throw, Catch Buttons
+local autoReelButton = Instance.new("TextButton")
+autoReelButton.Size = UDim2.new(0, 250, 0, 50)
+autoReelButton.Position = UDim2.new(0.5, -125, 0.2, 0)
+autoReelButton.Text = "Toggle Auto-Reel"
+autoReelButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+autoReelButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+autoReelButton.Font = Enum.Font.GothamBold
+autoReelButton.TextSize = 20
+autoReelButton.Parent = autoFrame
+
+local autoThrowButton = Instance.new("TextButton")
+autoThrowButton.Size = UDim2.new(0, 250, 0, 50)
+autoThrowButton.Position = UDim2.new(0.5, -125, 0.5, 0)
+autoThrowButton.Text = "Toggle Auto-Throw"
+autoThrowButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+autoThrowButton.BackgroundColor3 = Color3.fromRGB(255, 100, 0)
+autoThrowButton.Font = Enum.Font.GothamBold
+autoThrowButton.TextSize = 20
+autoThrowButton.Parent = autoFrame
+
+local autoCatchButton = Instance.new("TextButton")
+autoCatchButton.Size = UDim2.new(0, 250, 0, 50)
+autoCatchButton.Position = UDim2.new(0.5, -125, 0.8, 0)
+autoCatchButton.Text = "Toggle Auto-Catch"
+autoCatchButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+autoCatchButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+autoCatchButton.Font = Enum.Font.GothamBold
+autoCatchButton.TextSize = 20
+autoCatchButton.Parent = autoFrame
+
+-- Misc Section (Discord link)
+local miscFrame = Instance.new("Frame")
+miscFrame.Size = UDim2.new(1, 0, 0.2, 0)
+miscFrame.Position = UDim2.new(0, 0, 0.7, 0)
+miscFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+miscFrame.Parent = zapHubFrame
+
+local discordButton = Instance.new("TextButton")
+discordButton.Size = UDim2.new(0, 250, 0, 50)
+discordButton.Position = UDim2.new(0.5, -125, 0.2, 0)
+discordButton.Text = "Join Discord"
+discordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+discordButton.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
+discordButton.Font = Enum.Font.GothamBold
+discordButton.TextSize = 20
+discordButton.Parent = miscFrame
+
+-- Status Label
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Size = UDim2.new(1, 0, 0, 40)
+statusLabel.Position = UDim2.new(0, 0, 0.9, 0)
+statusLabel.Text = "Status: Idle"
+statusLabel.TextColor3 = Color3.fromRGB(255, 255, 0)
+statusLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+statusLabel.Font = Enum.Font.Gotham
+statusLabel.TextSize = 18
+statusLabel.Parent = zapHubFrame
+
+-- Variables to hold the states for auto-reel, auto-throw, and auto-catch
+local isAutoReeling = false
+local isAutoThrowing = false
+local isAutoCatching = false
+
+-- Function to simulate Auto-Reel
+local function autoReel()
+    local fishingRod = character:WaitForChild("FishingRod") -- Ensure you have the correct part name for the rod
+    while isAutoReeling do
+        -- Check if the rod is casted or if there's a fish on the hook
+        if fishingRod:FindFirstChild("ReelAction") then
+            fishingRod.ReelAction:Fire() -- Replace with the actual method used in the game to reel
+            print("Reeling...")
+        end
+        wait(2) -- Adjust wait time as needed
+    end
+end
+
+-- Function to simulate Auto-Throw
+local function autoThrow()
+    local fishingRod = character:WaitForChild("FishingRod")
+    while isAutoThrowing do
+        if fishingRod:FindFirstChild("ThrowAction") then
+            fishingRod.ThrowAction:Fire() -- Replace with actual throw logic
+            print("Throwing...")
+        end
+        wait(1) -- Adjust wait time as needed
+    end
+end
+
+-- Function to simulate Auto-Catch
+local function autoCatch()
+    local fishingRod = character:WaitForChild("FishingRod")
+    while isAutoCatching do
+        if fishingRod:FindFirstChild("CatchAction") then
+            fishingRod.CatchAction:Fire() -- Replace with actual catch logic
+            print("Catching fish...")
+        end
+        wait(1) -- Adjust wait time as needed
+    end
+end
+
+-- Toggle Auto-Reel
+autoReelButton.MouseButton1Click:Connect(function()
+    isAutoReeling = not isAutoReeling
+    statusLabel.Text = isAutoReeling and "Status: Auto-Reeling" or "Status: Idle"
+    if isAutoReeling then
+        autoReel()
+    end
+end)
+
+-- Toggle Auto-Throw
+autoThrowButton.MouseButton1Click:Connect(function()
+    isAutoThrowing = not isAutoThrowing
+    statusLabel.Text = isAutoThrowing and "Status: Auto-Throwing" or "Status: Idle"
+    if isAutoThrowing then
+        autoThrow()
+    end
+end)
+
+-- Toggle Auto-Catch
+autoCatchButton.MouseButton1Click:Connect(function()
+    isAutoCatching = not isAutoCatching
+    statusLabel.Text = isAutoCatching and "Status: Auto-Catching" or "Status: Idle"
+    if isAutoCatching then
+        autoCatch()
+    end
+end)
+
+-- Join Discord
+discordButton.MouseButton1Click:Connect(function()
+    setclipboard("https://discord.gg/v455PtW4") -- Copies the Discord link to clipboard
+    game:GetService("Players"):Chat("Join our Discord server: https://discord.gg/v455PtW4")
+end)
+
+-- Quit Button (Hide GUI)
+local quitButton = Instance.new("TextButton")
+quitButton.Size = UDim2.new(0, 250, 0, 50)
+quitButton.Position = UDim2.new(0.5, -125, 1, -70)
+quitButton.Text = "Quit Script"
+quitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+quitButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Red color for Quit
+quitButton.Font = Enum.Font.GothamBold
+quitButton.TextSize = 20
+quitButton.Parent = zapHubFrame
+
+quitButton.MouseButton1Click:Connect(function()
+    -- Stop all active auto functions
+    isAutoReeling = false
+    isAutoThrowing = false
+    isAutoCatching = false
+    statusLabel.Text = "Status: Idle"
+    
+    -- Hide the GUI
+    zapHubFrame.Visible = false
+    
+    -- Optional: Print message
+    print("Script has been quit, GUI is now hidden.")
+end)
